@@ -19,11 +19,6 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public Product addProduct(Product product) {
-        validateProduct(product);
-        return productRepository.save(product);
-    }
-
     public List<Product> getProducts() {
         return productRepository.findAll()
                 .stream()
@@ -33,29 +28,39 @@ public class ProductService {
     public Product getProductById(Long id) {
         return productRepository
                 .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product is not in database"));
+    }
+
+    public Product addProduct(Product product) {
+        validateProduct(product);
+        return productRepository.save(product);
     }
 
     public Product updateProduct(Product product, Long id) {
         validateProduct(product);
         Product oldProduct = productRepository
                 .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product is not in database"));
 
         product.setId(oldProduct.getId());
         return productRepository.saveAndFlush(product);
     }
 
     private void validateProduct(Product product) {
-        if (product.getName() == null || product.getName().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product name is mandatory.");
-        } else if (product.getDescription() == null || product.getDescription().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product description is mandatory.");
+        if (product == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product cannot be null");
+        } else if (product.getProductName() == null || product.getProductName().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product name cannot be null or blank");
+        } else if (product.getProductDescription() == null || product.getProductDescription().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product description cannot be null or blank");
         } else if (
                 product.getAmountInStock() < 0 ||
-                        product.getAmountInStock() > product.getMaximumInStock()
+                        product.getAmountInStock() > product.getMaximumInStock() ||
+                        product.getMaximumInStock() < 1
         ) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount cannot be less than zero.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount in stock cannot be less than zero");
+        } else if (product.getPrice() <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product price cannot be less than zero");
         }
     }
 }

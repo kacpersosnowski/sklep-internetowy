@@ -101,22 +101,68 @@ class ProductServiceTests {
 
 	@ParameterizedTest
 	@MethodSource("provideCorrectDataList")
-	final void test_addProduct_shouldAddToDatabase(Product product){
+	final void test_addProduct_shouldAddToDatabase(Product expected){
 
-		when(productRepository.save(product))
-				.thenReturn(product);
+		when(productRepository.save(expected))
+				.thenReturn(expected);
 
-		Product actual = productService.addProduct(product);
-		Product expected = product;
+		Product actual = productService.addProduct(expected);
 
 		assertEquals(expected, actual,
-				String.format("Should return product response with name %s", actual.getName()));
+				String.format("Should return product response with name %s", expected.getProductName()));
 	}
 
 	private static Stream<Product> provideCorrectDataList() {
 		return TestDataBuilder
 				.correctDataList()
-				.correctProducts();
+				.dataList();
+
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideIncorrectDataList")
+	final void test_addProduct_shouldThrowException(Product product){
+		assertThrows(ResponseStatusException.class, () -> productService.addProduct(product),
+				"Should throw exception.");
+	}
+
+	private static Stream<Product> provideIncorrectDataList() {
+		return TestDataBuilder
+				.incorrectDataList()
+				.dataList();
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideCorrectDataFromFile")
+	final void test_addProduct_shouldAddProductsFromFile(Product expected){
+
+		when(productRepository.save(expected))
+				.thenReturn(expected);
+
+		Product actual = productService.addProduct(expected);
+
+		assertEquals(expected, actual,
+				String.format("Should return product response with name %s", expected.getProductName()));
+
+	}
+
+	private static Stream<Product> provideCorrectDataFromFile(){
+		return TestDataBuilder
+				.correctDataListFromFile()
+				.dataList();
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideIncorrectDataFromFile")
+	final void test_addProduct_shouldThrowExceptionFromFile(Product product){
+		assertThrows(ResponseStatusException.class, () -> productService.addProduct(product),
+				"Should throw exception.");
+	}
+
+	private static Stream<Product> provideIncorrectDataFromFile() {
+		return TestDataBuilder
+				.incorrectDataListFromFile()
+				.dataList();
 	}
 
 }

@@ -4,5 +4,5 @@ import entity.Product;
 
 import java.util.stream.Stream;
 
-public record CorrectDataList(Stream<Product> correctProducts) {
+public record DataList(Stream<Product> dataList) {
 }

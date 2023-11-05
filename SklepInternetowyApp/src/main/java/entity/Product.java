@@ -20,9 +20,10 @@ public class Product {
 
     @Id
     private Long id;
-    private String name;
-    private String description;
+    private String productName;
+    private String productDescription;
     private int amountInStock;
     private int maximumInStock;
+    private double price;
 
 }
