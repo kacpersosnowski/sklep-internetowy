@@ -1,9 +1,15 @@
 package com.example.SklepInternetowyApp.testData;
 
 import entity.Product;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class TestDataBuilder {
     
@@ -23,66 +29,50 @@ public class TestDataBuilder {
         return new ExampleProduct(product);
     }
 
-    public static ExampleProduct exampleIncorrectProduct(){
-        Long productId = 1L;
+    public static CorrectDataList correctDataList() throws JSONException, IOException {
+        return new CorrectDataList(loadProductsArrayFromFile("correctProducts.json").stream());
+    }
 
-        Product product = Product.builder()
-                .id(productId)
+    public static IncorrectDataList incorrectDataList() throws JSONException, IOException {
+        Product product1 = Product.builder()
+                .id(1L)
                 .description("testDescription")
                 .amountInStock(1)
                 .maximumInStock(100)
                 .build();
-
-        return new ExampleProduct(product);
-    }
-
-    public static CorrectDataList correctDataList(){
-        Product product = Product.builder()
+        Product product2 = Product.builder()
                 .id(1L)
-                .name("test product")
-                .description("test description")
+                .name("testName")
                 .amountInStock(1)
                 .maximumInStock(100)
                 .build();
 
-        Product product2 = Product.builder()
-                .id(10000L)
-                .name("Product 2")
-                .description("Description 2")
-                .amountInStock(100)
-                .maximumInStock(100)
-                .build();
+        List<Product> incorrectProducts = loadProductsArrayFromFile("incorrectProducts.json");
+        incorrectProducts.add(product1);
+        incorrectProducts.add(product2);
+        incorrectProducts.add(null);
 
-        Product product3 = Product.builder()
-                .id(10L)
-                .name("PRODUCT 3")
-                .description("DESCRIPTION 3")
-                .amountInStock(0)
-                .maximumInStock(100)
-                .build();
-
-        Product product4 = Product.builder()
-                .id(3L)
-                .name("product^%$^%$^")
-                .description("description!@#@%$#%")
-                .amountInStock(10)
-                .maximumInStock(100)
-                .build();
-
-        Product product5 = Product.builder()
-                .id(100L)
-                .name("PRODUCT ^%$^%$^")
-                .description("DESCRIPTION !@#@%$#%")
-                .amountInStock(10)
-                .maximumInStock(100)
-                .build();
-
-        return new CorrectDataList(Stream.of(product,
-                product2,
-                product3,
-                product4,
-                product5));
-
+        return new IncorrectDataList(incorrectProducts.stream());
     }
 
+    private static List<Product> loadProductsArrayFromFile(String fileName) throws IOException, JSONException {
+        List<Product> products = new ArrayList<>();
+        String resourcesDir = "src/test/java/com/example/SklepInternetowyApp/resources/";
+        String jsonData = new String(Files.readAllBytes(Paths.get(resourcesDir + fileName)));
+        JSONArray jsonArray = new JSONArray(jsonData);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonProduct = jsonArray.getJSONObject(i);
+            Product product = Product.builder()
+                    .id(jsonProduct.getLong("id"))
+                    .name(jsonProduct.getString("name"))
+                    .description(jsonProduct.getString("description"))
+                    .amountInStock(jsonProduct.getInt("amountInStock"))
+                    .maximumInStock(jsonProduct.getInt("maximumInStock"))
+                    .build();
+
+            products.add(product);
+        }
+        return products;
+    }
 }

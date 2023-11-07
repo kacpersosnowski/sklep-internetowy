@@ -47,9 +47,11 @@ public class ProductService {
     }
 
     private void validateProduct(Product product) {
-        if (product.getName() == null || product.getName().isEmpty()) {
+        if(product == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product must not be null.");
+        } else if (product.getName() == null || product.getName().trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product name is mandatory.");
-        } else if (product.getDescription() == null || product.getDescription().isEmpty()) {
+        } else if (product.getDescription() == null || product.getDescription().trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product description is mandatory.");
         } else if (
                 product.getAmountInStock() < 0 ||

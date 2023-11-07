@@ -1,0 +1,23 @@
+[
+  {
+    "id": 2,
+    "name": " ",
+    "description": "test description",
+    "amountInStock": 1,
+    "maximumInStock": 100
+  },
+  {
+    "id": 4,
+    "name": "test product",
+    "description": " ",
+    "amountInStock": 1,
+    "maximumInStock": 100
+  },
+  {
+    "id": 5,
+    "name": "test product",
+    "description": "test description",
+    "amountInStock": 100,
+    "maximumInStock": 1
+  }
+]

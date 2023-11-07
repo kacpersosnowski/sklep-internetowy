@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "test product",
+    "description": "test description",
+    "amountInStock": 1,
+    "maximumInStock": 100
+  },
+  {
+    "id": 10000,
+    "name": "Product 2",
+    "description": "Description 2",
+    "amountInStock": 100,
+    "maximumInStock": 100
+  },
+  {
+    "id": 10,
+    "name": "PRODUCT 3",
+    "description": "DESCRIPTION 3",
+    "amountInStock": 0,
+    "maximumInStock": 100
+  },
+  {
+    "id": 3,
+    "name": "product^%$^%$^",
+    "description": "description!@#@%$#%",
+    "amountInStock": 1,
+    "maximumInStock": 100
+  },
+  {
+    "id": 100,
+    "name": "PRODUCT ^%$^%$^",
+    "description": "DESCRIPTION !@#@%$#%",
+    "amountInStock": 1,
+    "maximumInStock": 100
+  }
+]
