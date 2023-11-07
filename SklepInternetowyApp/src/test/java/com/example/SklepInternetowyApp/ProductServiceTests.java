@@ -44,29 +44,34 @@ class ProductServiceTests {
 
 	@Test
 	final void test_getProducts_ShouldReturnListOfProducts() {
+		// given
 		Product product2 = exampleProduct;
 		product2.setId(2L);
 		List<Product> products = new ArrayList<>(Arrays.asList(exampleProduct, product2));
 
+		// when
 		when(productRepository.findAll())
 				.thenReturn(products);
 		List<Product> expected = products;
 		List<Product> actual = productService.getProducts();
 
+		// then
 		assertEquals(expected, actual,
 				String.format("Should return product response with length of %d", expected.size()));
 	}
 
 	@Test
 	final void test_getProductById_shouldReturnProduct() {
+		// given
 		long productId = 1L;
 
+		// when
 		when(productRepository.findById(productId))
 				.thenReturn(Optional.ofNullable(exampleProduct));
-
 		Product actual = productService.getProductById(productId);
 		Product expected = exampleProduct;
 
+		// then
 		assertEquals(expected, actual,
 				String.format("Should return product with id %d", productId));
 	}
@@ -89,10 +94,12 @@ class ProductServiceTests {
 
 	@Test
 	final void test_updateProduct_shouldReturnUpdatedProduct() {
+		// given
 		Product oldProduct = exampleProduct;
 		Product newProduct = TestDataBuilder.exampleProduct().product();
 		newProduct.setDescription("A new description");
 
+		// when
 		when(productRepository.findById(oldProduct.getId()))
 				.thenReturn(Optional.of(oldProduct));
 		when(productRepository.saveAndFlush(newProduct))
@@ -100,18 +107,22 @@ class ProductServiceTests {
 		Product actual = productService.updateProduct(newProduct, oldProduct.getId());
 		Product expected = newProduct;
 
+		// then
 		assertEquals(expected, actual,
 				String.format("Should return product response with new description: %s", expected.getDescription()));
 	}
 
 	@Test
 	final void test_updateProduct_shouldThrowResponseStatusException() {
+		// given
 		long productId = -1L;
 		Product newProduct = exampleProduct;
 
+		// when
 		when(productRepository.findById(productId))
 				.thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found."));
 
+		// then
 		assertThrows(ResponseStatusException.class, () -> productService.updateProduct(newProduct, productId),
 				String.format("Should throw exception when product id is %d", productId));
 	}
@@ -128,10 +139,8 @@ class ProductServiceTests {
 	@ParameterizedTest
 	@MethodSource("provideCorrectDataList")
 	final void test_addProduct_shouldReturnProduct(Product product) {
-
 		when(productRepository.save(product))
 				.thenReturn(product);
-
 		Product actual = productService.addProduct(product);
 		Product expected = product;
 
