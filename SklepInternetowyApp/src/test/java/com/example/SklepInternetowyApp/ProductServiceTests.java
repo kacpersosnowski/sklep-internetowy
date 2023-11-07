@@ -45,9 +45,7 @@ class ProductServiceTests {
 	@Test
 	final void test_getProducts_ShouldReturnListOfProducts() {
 		// given
-		Product product2 = exampleProduct;
-		product2.setId(2L);
-		List<Product> products = new ArrayList<>(Arrays.asList(exampleProduct, product2));
+		List<Product> products = TestDataBuilder.exampleProductList();
 
 		// when
 		when(productRepository.findAll())

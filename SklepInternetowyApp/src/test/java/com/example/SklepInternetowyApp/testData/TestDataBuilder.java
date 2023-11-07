@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TestDataBuilder {
@@ -28,6 +29,37 @@ public class TestDataBuilder {
                 .build();
 
         return new ExampleProduct(product);
+    }
+
+    public static List<Product> exampleProductList() {
+        Product product1 = Product.builder()
+                .id(1L)
+                .name("testProduct1")
+                .description("testDescription1")
+                .price(10.0)
+                .amountInStock(1)
+                .maximumInStock(100)
+                .build();
+
+        Product product2 = Product.builder()
+                .id(2L)
+                .name("testProduct2")
+                .description("testDescription2")
+                .price(10.0)
+                .amountInStock(1)
+                .maximumInStock(100)
+                .build();
+
+        Product product3 = Product.builder()
+                .id(3L)
+                .name("testProduct3")
+                .description("testDescription3")
+                .price(10.0)
+                .amountInStock(1)
+                .maximumInStock(100)
+                .build();
+
+        return new ArrayList<>(Arrays.asList(product1, product2, product3));
     }
 
     public static CorrectDataList correctDataList() throws JSONException, IOException {
