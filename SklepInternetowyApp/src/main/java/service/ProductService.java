@@ -53,8 +53,11 @@ public class ProductService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product name is mandatory.");
         } else if (product.getDescription() == null || product.getDescription().trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product description is mandatory.");
-        } else if (
+        } else if(product.getPrice() < 0.0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price cannot be less than zero.");
+        }else if (
                 product.getAmountInStock() < 0 ||
+                        product.getMaximumInStock() < 0 ||
                         product.getAmountInStock() > product.getMaximumInStock()
         ) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount cannot be less than zero.");

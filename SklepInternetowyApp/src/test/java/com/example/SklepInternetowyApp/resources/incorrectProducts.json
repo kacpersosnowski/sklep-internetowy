@@ -3,6 +3,7 @@
     "id": 2,
     "name": " ",
     "description": "test description",
+    "price": 10.0,
     "amountInStock": 1,
     "maximumInStock": 100
   },
@@ -10,6 +11,7 @@
     "id": 4,
     "name": "test product",
     "description": " ",
+    "price": 10.0,
     "amountInStock": 1,
     "maximumInStock": 100
   },
@@ -17,6 +19,31 @@
     "id": 5,
     "name": "test product",
     "description": "test description",
+    "price": 10.0,
+    "amountInStock": 100,
+    "maximumInStock": 1
+  },
+  {
+    "id": 6,
+    "name": "test product",
+    "description": "test description",
+    "price": 10.0,
+    "amountInStock": -1,
+    "maximumInStock": 100
+  },
+  {
+    "id": 7,
+    "name": "test product",
+    "description": "test description",
+    "price": 10.0,
+    "amountInStock": 100,
+    "maximumInStock": -1
+  },
+  {
+    "id": 8,
+    "name": "test product",
+    "description": "test description",
+    "price": -10.0,
     "amountInStock": 100,
     "maximumInStock": 1
   }

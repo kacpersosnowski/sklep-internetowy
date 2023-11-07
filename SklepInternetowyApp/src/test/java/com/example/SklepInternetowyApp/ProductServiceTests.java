@@ -43,6 +43,21 @@ class ProductServiceTests {
 	}
 
 	@Test
+	final void test_getProducts_ShouldReturnListOfProducts() {
+		Product product2 = exampleProduct;
+		product2.setId(2L);
+		List<Product> products = new ArrayList<>(Arrays.asList(exampleProduct, product2));
+
+		when(productRepository.findAll())
+				.thenReturn(products);
+		List<Product> expected = products;
+		List<Product> actual = productService.getProducts();
+
+		assertEquals(expected, actual,
+				String.format("Should return product response with length of %d", expected.size()));
+	}
+
+	@Test
 	final void test_getProductById_shouldReturnProduct() {
 		long productId = 1L;
 
@@ -102,6 +117,15 @@ class ProductServiceTests {
 	}
 
 	@ParameterizedTest
+	@MethodSource("provideIncorrectDataList")
+	final void test_updateProduct_shouldThrowResponseStatusException(Product product){
+		Long productId = 1L;
+
+		assertThrows(ResponseStatusException.class, () -> productService.updateProduct(product, productId),
+				"Should not pass validation and throw an Exception");
+	}
+
+	@ParameterizedTest
 	@MethodSource("provideCorrectDataList")
 	final void test_addProduct_shouldReturnProduct(Product product) {
 
@@ -132,20 +156,5 @@ class ProductServiceTests {
 		return TestDataBuilder
 				.incorrectDataList()
 				.incorrectProducts();
-	}
-
-	@Test
-	final void test_getProducts_ShouldReturnListOfProducts() {
-		Product product2 = exampleProduct;
-		product2.setId(2L);
-		List<Product> products = new ArrayList<>(Arrays.asList(exampleProduct, product2));
-
-		when(productRepository.findAll())
-				.thenReturn(products);
-		List<Product> expected = products;
-		List<Product> actual = productService.getProducts();
-
-		assertEquals(expected, actual,
-				String.format("Should return product response with length of %d", expected.size()));
 	}
 }

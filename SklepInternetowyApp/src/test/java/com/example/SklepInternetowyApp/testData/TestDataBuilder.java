@@ -22,6 +22,7 @@ public class TestDataBuilder {
                 .id(productId)
                 .name("testProduct")
                 .description("testDescription")
+                .price(10.0)
                 .amountInStock(1)
                 .maximumInStock(100)
                 .build();
@@ -37,12 +38,14 @@ public class TestDataBuilder {
         Product product1 = Product.builder()
                 .id(1L)
                 .description("testDescription")
+                .price(10.0)
                 .amountInStock(1)
                 .maximumInStock(100)
                 .build();
         Product product2 = Product.builder()
                 .id(1L)
                 .name("testName")
+                .price(10.0)
                 .amountInStock(1)
                 .maximumInStock(100)
                 .build();
@@ -67,6 +70,7 @@ public class TestDataBuilder {
                     .id(jsonProduct.getLong("id"))
                     .name(jsonProduct.getString("name"))
                     .description(jsonProduct.getString("description"))
+                    .price(jsonProduct.getDouble("price"))
                     .amountInStock(jsonProduct.getInt("amountInStock"))
                     .maximumInStock(jsonProduct.getInt("maximumInStock"))
                     .build();
