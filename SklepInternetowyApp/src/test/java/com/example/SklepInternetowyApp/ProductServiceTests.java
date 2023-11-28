@@ -99,6 +99,12 @@ class ProductServiceTests {
 				"Should throw exception when product doesn't have a name.");
 	}
 
+	@Test
+	final void test_addIncorrectProduct_shouldThrowExceptionTwo() {
+		assertThrows(ResponseStatusException.class, () -> productService.addProduct(exampleIncorrectProduct),
+				"Should throw exception when product doesn't have a name.");
+	}
+
 	@ParameterizedTest
 	@MethodSource("provideCorrectDataList")
 	final void test_addProduct_shouldAddToDatabase(Product product){
