@@ -83,6 +83,7 @@ class ProductServiceTests {
 
 		productService.deleteProduct(productId);
 		verify(productRepository).deleteById(productId);
+		log.debug("Product with id " + productId + " was deleted.");
 	}
 
 	@Test
