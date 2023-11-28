@@ -46,6 +46,10 @@ public class ProductService {
         return productRepository.saveAndFlush(product);
     }
 
+    public List<Product> getProductsByName(String name) {
+        return productRepository.findByName(name);
+    }
+
     private void validateProduct(Product product) {
         if (product.getName() == null || product.getName().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product name is mandatory.");
@@ -59,10 +63,5 @@ public class ProductService {
         }
     }
 
-    private void test() {
-        for (int i = 0; i < 10; i++) {
-            System.out.println(i);
-        }
-    }
 
 }
