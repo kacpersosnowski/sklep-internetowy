@@ -58,4 +58,11 @@ public class ProductService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount cannot be less than zero.");
         }
     }
+
+    private void test() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(i);
+        }
+    }
+
 }
